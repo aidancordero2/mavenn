@@ -34,3 +34,4 @@ setup(name='mavenn',
       ],
       python_requires='>=3.8',# tested with version 3.12.8
       zip_safe=False)
+#test
