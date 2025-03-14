@@ -32,11 +32,6 @@ jobs:
           pip install -e .
           pip install pytest hatch
 
-      - name: Configure matplotlib backend
-        run: |
-          mkdir -p $HOME/.config/matplotlib
-          echo "backend: Agg" > $HOME/.config/matplotlib/matplotlibrc
-
       - name: Test build
         run: |
           pip install build
