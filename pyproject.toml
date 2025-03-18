@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "mavenn"
-version = "1.1.1"
+version = "1.1.2"
 description = "MAVE-NN: learning genotype-phenotype maps from multiplex assays of variant effect"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -28,10 +28,11 @@ dependencies = [
     "seaborn",            # tested with version 0.13.2
     "logomaker",          # tested with version 0.8.2
 ]
+
 keywords=["genotype-phenotype maps", "multiplex assays", "variant effect", "deep mutational scanning", "massively parallel reporter assays"]
 
 [project.urls]
-Documentation = "https://mavenn.readthedocs.io/en/v1.1.1/"
+Documentation = "https://mavenn.readthedocs.io/en/v1.1.2/"
 Repository = "https://github.com/jbkinney/mavenn"
 
 [tool.hatch.build.targets.wheel]
