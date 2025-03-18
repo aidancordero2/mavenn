@@ -144,7 +144,6 @@ jobs:
       - publish-to-pypi
       - publish-to-testpypi
     if: >-
-      always() && 
       (needs.publish-to-pypi.result == 'success' || needs.publish-to-testpypi.result == 'success')
 
     permissions:
