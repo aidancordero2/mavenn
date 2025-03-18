@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "mavenn"
+name = "mavenn_acordero"
 version = "1.1.5"
 description = "MAVE-NN: learning genotype-phenotype maps from multiplex assays of variant effect"
 readme = "README.md"
