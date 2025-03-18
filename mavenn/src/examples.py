@@ -173,7 +173,7 @@ def load_example_dataset(name=None):
     #dataset_names.sort()
 
     # Set dataset_dir
-    dataset_dir = os.path.join(mavenn.__path__[0], 'examples', 'datasets')
+    dataset_dir = os.path.join(mavenn.__path__[0], 'examples', 'datasets', '')
 
     #dataset_file_names = glob.glob(f'{dataset_dir}*_data.csv.gz')
     dataset_file_names = glob.glob(os.path.join(dataset_dir, '*_data.csv.gz'))
