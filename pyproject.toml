@@ -22,7 +22,8 @@ dependencies = [
     "numpy",              # tested with version 1.26.4
     "matplotlib",  # tested with version 3.10.0
     "pandas >= 2.2.3",             # tested with version 2.2.3
-    "tensorflow >= 2.17.0",  # tested with version 2.17.0
+    "tensorflow >= 2.19.0",  # tested with version 2.17.0
+    "keras >= 3.9.0",
     "scikit-learn >= 1.6.1",       # tested with version 1.6.1
     "scipy",              # tested with version 1.15.1
     "seaborn",            # tested with version 0.13.2
