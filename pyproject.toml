@@ -22,7 +22,7 @@ dependencies = [
     "numpy",              # tested with version 1.26.4
     "matplotlib",         # tested with version 3.10.0
     "pandas",             # tested with version 2.2.3
-    "tensorflow",         # tested with version 2.17.0
+    "tensorflow ~= 2.17.0",  # tested with version 2.17.0
     "scikit-learn",       # tested with version 1.6.1
     "scipy",              # tested with version 1.15.1
     "seaborn",            # tested with version 0.13.2
