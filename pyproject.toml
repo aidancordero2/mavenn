@@ -24,9 +24,9 @@ dependencies = [
     "pandas >= 2.2.3",             # tested with version 2.2.3
     "tensorflow >= 2.17.0",  # tested with version 2.17.0
     "scikit-learn >= 1.6.1",       # tested with version 1.6.1
-    "scipy >= 1.15.1",              # tested with version 1.15.1
-    "seaborn >= 0.13.2",            # tested with version 0.13.2
-    "logomaker >= 0.8.2",          # tested with version 0.8.2
+    "scipy",              # tested with version 1.15.1
+    "seaborn",            # tested with version 0.13.2
+    "logomaker",          # tested with version 0.8.2
 ]
 
 keywords=["genotype-phenotype maps", "multiplex assays", "variant effect", "deep mutational scanning", "massively parallel reporter assays"]
