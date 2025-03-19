@@ -127,12 +127,12 @@ class GPMapLayer(Layer):
     ### The following methods must be fully overridden ###
 
     @handle_errors
-    def build(self, input_shape):
+    def build(self, input_shape: tuple):
         # Call superclass build
         super().build(input_shape)
 
     @handle_errors
-    def call(self, inputs):
+    def call(self, inputs, **kwargs):
         """Process layer input and return output."""
         assert False
 
