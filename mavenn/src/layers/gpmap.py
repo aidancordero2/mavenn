@@ -11,7 +11,12 @@ from tensorflow.keras.initializers import Constant
 from tensorflow.keras.layers import Layer, Dense
 
 # This is the kind of variable to test for
-from keras.src.backend import Variable
+try:
+    # For newer Keras versions
+    from keras.src.backend import Variable
+except ImportError:
+    # For older Keras versions
+    from keras.backend import Variable
 
 # MAVE-NN imports
 from mavenn.src.error_handling import check, handle_errors
