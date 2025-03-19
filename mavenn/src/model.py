@@ -1,3 +1,4 @@
+
 """model.py: Define the Model() class, which represents all MAVE-NN models."""
 # Standard imports
 import numpy as np

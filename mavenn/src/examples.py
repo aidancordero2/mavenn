@@ -1,3 +1,4 @@
+
 """examples.py: Functions to interface with built-in examples."""
 # Standard imports
 import pandas as pd
@@ -124,7 +125,6 @@ def load_example_model(name=None):
     model: (mavenn.Model)
         A pre-trained Model object.
     """
-    #models_dir = mavenn.__path__[0] +'/examples/models'
     models_dir = os.path.join(mavenn.__path__[0], 'examples', 'models', '')
     model_file_names = glob.glob(f'{models_dir}/*.weights.h5')
     models_dict = {}
@@ -177,7 +177,6 @@ def load_example_dataset(name=None):
     # Set dataset_dir
     dataset_dir = os.path.join(mavenn.__path__[0], 'examples', 'datasets', '')
 
-    #dataset_file_names = glob.glob(f'{dataset_dir}*_data.csv.gz')
     dataset_file_names = glob.glob(os.path.join(dataset_dir, '*_data.csv.gz'))
     dataset_dict = {}
     for file_name in dataset_file_names:

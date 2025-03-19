@@ -1,3 +1,4 @@
+
 """regression_types.py: Specialized classes for GE and MPA regression."""
 
 # Standard imports
