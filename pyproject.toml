@@ -19,8 +19,8 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Bio-Informatics",
 ]
 dependencies = [
-    "numpy >= 1.26.4",              # tested with version 1.26.4
-    "matplotlib >=3.10.0",  # tested with version 3.10.0
+    "numpy",              # tested with version 1.26.4
+    "matplotlib",  # tested with version 3.10.0
     "pandas >= 2.2.3",             # tested with version 2.2.3
     "tensorflow >= 2.17.0",  # tested with version 2.17.0
     "scikit-learn >= 1.6.1",       # tested with version 1.6.1
