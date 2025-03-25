@@ -10,7 +10,6 @@ on:
 jobs:
   test:
     # This will run the tests for each Python version
-    if: ${{ !always() }}
     name: Run Python Tests
     runs-on: ${{ matrix.os }}
     strategy:

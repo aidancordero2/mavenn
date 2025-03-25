@@ -4,7 +4,6 @@ on:
   schedule:
     - cron: '0 6 * * *' #Runs workflow at 06:00 UTC every day
   workflow_dispatch:  # Also allow manual triggering
-  push:
 
 jobs:
   test:
