@@ -34,7 +34,6 @@ jobs:
 
     - name: Run tests
       run: |
-        pip install mavenn-acordero
         python -c "import mavenn; mavenn.run_tests()"
 
   build:
