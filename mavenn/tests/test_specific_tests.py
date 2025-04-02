@@ -12,7 +12,16 @@ from mavenn.src.validate import validate_alphabet
 from mavenn.src.utils import load
 from mavenn.src.error_handling import check, handle_errors
 from mavenn.tests.testing_utils import test_parameter_values, generate_id
-from mavenn.tests.define_tests import get_validate_alphabet_tests, get_GlobalEpistasisModel_tests, get_NoiseAgnosticModel_tests, get_load_tests, get_x_to_phi_or_yhat_tests, get_GE_fit_tests
+from mavenn.tests.define_tests import (
+    get_validate_alphabet_tests,
+    get_GlobalEpistasisModel_tests,
+    get_NoiseAgnosticModel_tests,
+    get_load_tests,
+    get_x_to_phi_or_yhat_tests,
+    get_GE_fit_tests,
+    get_MPA_fit_tests,
+    get_heatmap_tests
+)
 
 
 
@@ -85,5 +94,13 @@ def test_x_to_phi_or_yhat(func, var_name, val, should_fail, input_kwargs):
 
 @pytest.mark.parametrize("func,var_name,val,should_fail,input_kwargs", get_GE_fit_tests(), ids=generate_id)
 def test_GE_fit(func, var_name, val, should_fail, input_kwargs):
+    test_parameter_values(func, var_name, val, should_fail, **input_kwargs)
+
+@pytest.mark.parametrize("func,var_name,val,should_fail,input_kwargs", get_MPA_fit_tests(), ids=generate_id)
+def test_MPA_fit(func, var_name, val, should_fail, input_kwargs):
+    test_parameter_values(func, var_name, val, should_fail, **input_kwargs)
+
+@pytest.mark.parametrize("func,var_name,val,should_fail,input_kwargs", get_heatmap_tests(), ids=generate_id)
+def test_heatmap(func, var_name, val, should_fail, input_kwargs):
     test_parameter_values(func, var_name, val, should_fail, **input_kwargs)
 

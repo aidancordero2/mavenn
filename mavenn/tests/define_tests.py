@@ -329,6 +329,12 @@ def run_test_x_to_yhat(model, seq):
           f'yhat={yhat} does not have the expected shape={shape}')
 
 def get_x_to_phi_or_yhat_tests():
+    """
+    Method that returns a list of tests for the x_to_phi and x_to_yhat methods of the Model class
+
+    :return: list of tuples, each containing a test parameter, a value to test, a boolean indicating whether the test should fail, and a dictionary of keyword arguments:
+        (param, val, should_fail, kwargs)
+    """
     mavenn_dir = mavenn.__path__[0]
     model_dir = os.path.join(mavenn_dir, 'examples', 'models')
 
@@ -521,3 +527,218 @@ def get_GE_fit_tests():
                   tests.append((run_test_for_nan_in_model_methods,'seqs', test_df['x'].values, False, {'model': model, 'y': test_df['y'], 'regression_type': 'GE'}))
 
     return tests
+
+
+@handle_errors
+def get_MPA_fit_tests():
+
+    """
+    Method that returns a list of tests for the fit method of the Model class
+    for MPA regression. Small subsets of data are used for
+    training, for all combinations of gpmap_type(s).
+    Models are trained for one epoch and all Model
+    method outputs are subsequently checked for NANs.
+
+    parameters
+    ----------
+    None
+
+    returns
+    -------
+    List of tuples, each containing a test parameter, a value to test, a boolean indicating whether the test should fail, and a dictionary of keyword arguments:
+        (param, val, should_fail, kwargs)
+
+    """
+
+    # turn off warnings/retracing just for testing
+    import tensorflow as tf
+    tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
+
+    tests = []
+
+    gpmap_types = ['additive', 'neighbor', 'pairwise']
+
+    data_df = mavenn.load_example_dataset('sortseq')
+
+    # use small subset of data for quick training
+    data_df = data_df.loc[0:200].copy()
+
+    # Comptue sequence length and number of bins
+    L = len(data_df['x'][0])
+    y_cols = [c for c in data_df.columns if 'ct_' in c]
+    Y = len(y_cols)
+    print(f'L={L}, Y={Y}')
+
+    # Split into trianing and test data
+    ix = (data_df['set'] != 'test')
+    L = len(data_df['x'][0])
+    train_df = data_df[ix]
+    test_df = data_df[~ix]
+
+    # loop over different gpmap_types
+    for gpmap_type in gpmap_types:
+
+        # Define model
+        model = mavenn.Model(regression_type='MPA',
+                             L=L,
+                             Y=Y,
+                             alphabet='dna',
+                             gpmap_type=gpmap_type)
+
+        model.set_data(x=train_df['x'].values,
+                       y=train_df[y_cols].values,
+                       verbose=False)
+
+        # Fit model to data
+        history = model.fit(epochs=1,
+                            batch_size=250,
+                            verbose=False)
+        # check model methods for NANs
+        #print('Check for NANs in the output of model methods')
+        print(f'gpmap_type = {gpmap_type}, dataset = sortseq')
+        print(f'Testing model inference with: \n'
+              f'gpmap_type={repr(gpmap_type)}, \n'
+              f'dataset="sortseq"')
+        
+        tests.append((run_test_for_nan_in_model_methods,'seqs', [np.nan], True, {'model': model, 'y': test_df[y_cols].values, 'regression_type': 'MPA'}))
+        tests.append((run_test_for_nan_in_model_methods,'seqs', test_df['x'].values, False, {'model': model, 'y': test_df[y_cols].values, 'regression_type': 'MPA'}))
+
+    return tests
+
+# @handle_errors
+# def _test_phi_calculation(model_file):
+#     # Load model (assumes .h5 extension)
+#     model = mavenn.load(model_file[:-3])
+#
+#     # Get sequence
+#     seq = model.x_stats['consensus_seq']
+#
+#     # Get alphabet
+#     alphabet = model.model.alphabet
+#     alphabet = validate_alphabet(alphabet)
+#
+#     # Explain test to user
+#     print(
+# f"""\nTesting phi calcluation
+# model     : {model_file}
+# gpmap_type: {model.gpmap_type}
+# alphabet  : {model.alphabet}
+# seq       : {seq}""")
+#
+#     # Get MPA model parameters
+#     tmp_df = model.get_gpmap_parameters()
+#
+#     # Create theta_df
+#     theta_df = pd.DataFrame()
+#     theta_df['id'] = [name.split('_')[1] for name in tmp_df['name']]
+#     theta_df['theta'] = tmp_df['value']
+#     theta_df.set_index('id', inplace=True)
+#     theta_df.head()
+#
+#     # Get model type
+#     if model.gpmap_type == 'additive':
+#         f = additive_model_features
+#     elif model.gpmap_type in ['pairwise', 'neighbor']:
+#         f = pairwise_model_features
+#     else:
+#         check(model.gpmap_type in ['additive', 'neighbor', 'pairwise'],
+#               'Unrecognized model.gpmap_type: {model.gpmap_type}')
+#
+#     # Encode sequence features
+#     x, names = f([seq], alphabet=alphabet)
+#
+#     # Create dataframe
+#     x_df = pd.DataFrame()
+#     x_df['id'] = [name.split('_')[1] for name in names]
+#     x_df['x'] = x[0, :]
+#     x_df.set_index('id', inplace=True)
+#     x_df.head()
+#
+#     # Make sure theta_df and x_df have the same indices
+#     x_ids = set(x_df.index)
+#     theta_ids = set(theta_df.index)
+#     check(x_ids >= theta_ids, f"theta features are not contained within x features.")
+#
+#     # Merge theta_df and x_df into one dataframe
+#     df = pd.merge(left=theta_df, right=x_df, left_index=True, right_index=True,
+#                   how='left')
+#
+#     # Make sure there are no nan entries
+#     num_null_entries = df.isnull().sum().sum()
+#     check(num_null_entries == 0,
+#           f'x_df and theta_df do not agree; found {num_null_entries} null entries.')
+#
+#     # Compute phi from manual calculation
+#     phi_check = np.sum(df['theta'] * df['x'])
+#
+#     # Compute phi using model method
+#     phi_model = model.x_to_phi(seq)
+#
+#     check(np.isclose(phi_check, phi_model, atol=1E-5),
+#           f'phi_check: {phi_check} != phi_model: {phi_model} for gpmap_type: {model.gpmap_type}')
+#     print(
+# f"""phi_model : {phi_model}
+# phi_check : {phi_check}""")
+
+
+# def test_phi_calculations():
+#     mavenn_dir = mavenn.__path__[0]
+#     model_dir = f'{mavenn_dir}/examples/models/'
+#
+#     # Get list of models in directory
+#     model_files = glob.glob(model_dir + '*.h5')
+#
+#     test_parameter_values(func=_test_phi_calculation,
+#                           var_name='model_file',
+#                           success_list=model_files,
+#                           fail_list=[])
+
+
+# def test_load_example():
+#
+#     successful_which_list = [None, 'model', 'training_data', 'test_data']
+#     fail_which_list = [0, 'xxx', True]
+#
+#     successful_dataset_names_list = [None, 'mpsa', 'sortseq', 'gb1']
+#     incorrect_dataset_names_list = [0, 'xxx']
+#
+#     successful_model_names_list = ["gb1_ge_additive",
+#                                    "mpsa_ge_pairwise",
+#                                    "sortseq_mpa_additive"]
+#
+#     incorrect_model_names_list = [0, "gb1", 'xxx']
+#
+#     # test parameter which
+#     test_parameter_values(func=load_example,
+#                           var_name='which',
+#                           success_list=successful_which_list,
+#                           fail_list=fail_which_list)
+#
+#     # test parameter name, with which='test_data'
+#     test_parameter_values(func=load_example,
+#                           var_name='name',
+#                           which='test_data',
+#                           success_list=successful_dataset_names_list,
+#                           fail_list=incorrect_dataset_names_list)
+#
+#     # test parameter name, with which='model'
+#     test_parameter_values(func=load_example,
+#                           var_name='name',
+#                           which='model',
+#                           success_list=successful_model_names_list,
+#                           fail_list=incorrect_model_names_list)
+#
+
+def get_heatmap_tests():
+    """
+    Method that returns a list of tests for the heatmap method
+
+
+    :return: list of tuples, each containing a test parameter, a value to test, a boolean indicating whether the test should fail, and a dictionary of keyword arguments:
+        (param, val, should_fail, kwargs)
+    """
+    return [
+        # test 1
+        (mavenn.heatmap, 'df', None, True, {'df': pd.DataFrame()}),
+    ]
+
