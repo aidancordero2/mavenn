@@ -13,9 +13,6 @@ TINY = np.sqrt(np.finfo(np.float32).tiny)
 # Primary model class
 from mavenn.src.model import Model
 
-# For running functional tests
-from mavenn.tests import run_tests
-
 # Examples
 from mavenn.src.examples import list_tutorials
 from mavenn.src.examples import run_demo
