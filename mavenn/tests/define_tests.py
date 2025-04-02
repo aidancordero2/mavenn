@@ -517,9 +517,7 @@ def get_GE_fit_tests():
                         f'dataset={repr(ge_dataset)}, \n'
                         f'noise_model={repr(GE_noise_model_type)}')
                   
-                  tests.append([
-                      (run_test_for_nan_in_model_methods,'seqs', [np.nan], True, {'model': model, 'y': test_df['y'], 'regression_type': 'GE'}),
-                      (run_test_for_nan_in_model_methods,'seqs', test_df['x'].values, False, {'model': model, 'y': test_df['y'], 'regression_type': 'GE'}),
-                  ])
+                  tests.append((run_test_for_nan_in_model_methods,'seqs', [np.nan], True, {'model': model, 'y': test_df['y'], 'regression_type': 'GE'}))
+                  tests.append((run_test_for_nan_in_model_methods,'seqs', test_df['x'].values, False, {'model': model, 'y': test_df['y'], 'regression_type': 'GE'}))
 
     return tests
