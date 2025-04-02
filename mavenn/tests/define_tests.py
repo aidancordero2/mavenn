@@ -2,6 +2,9 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
+import glob
+import pdb
+import inspect
 # MAVE-NN imports
 import mavenn
 from mavenn.src.examples import load_example_dataset, load_example_model
@@ -737,8 +740,12 @@ def get_heatmap_tests():
     :return: list of tuples, each containing a test parameter, a value to test, a boolean indicating whether the test should fail, and a dictionary of keyword arguments:
         (param, val, should_fail, kwargs)
     """
+    df = pd.DataFrame(columns=['x', 'y', 'z', 'q'], data=np.random.rand(10, 4))
+    values = df.values
+    alphabet = df.columns
+    function_name = inspect.currentframe().f_code.co_name
     return [
         # test 1
-        (mavenn.heatmap, 'df', None, True, {'df': pd.DataFrame()}),
+        (mavenn.heatmap, 'df', None, True, {'values': None, 'alphabet': None}),
     ]
 
