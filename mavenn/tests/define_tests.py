@@ -745,7 +745,47 @@ def get_heatmap_tests():
     alphabet = df.columns
     function_name = inspect.currentframe().f_code.co_name
     return [
+
+        # Test df
         # test 1
         (mavenn.heatmap, 'df', None, True, {'values': None, 'alphabet': None}),
+        (mavenn.heatmap, 'df', 1, True, {'values': None, 'alphabet': None}),
+        (mavenn.heatmap, 'df', 'hi', True, {'values': None, 'alphabet': None}),
+        (mavenn.heatmap, 'df', df, False, {'values': None, 'alphabet': None}),
+        # test 2
+        (mavenn.heatmap, 'df', df, True, {'values': values, 'alphabet': alphabet}),
+        (mavenn.heatmap, 'df', 1, True, {'values': values, 'alphabet': alphabet}),
+        (mavenn.heatmap, 'df', 'hi', True, {'values': values, 'alphabet': alphabet}),
+        (mavenn.heatmap, 'df', None, False, {'values': values, 'alphabet': alphabet}),
+        # test 3 
+        (mavenn.heatmap, 'df', None, True, {'values': values, 'alphabet': None}),
+        (mavenn.heatmap, 'df', df, True, {'values': values, 'alphabet': None}),
+        (mavenn.heatmap, 'df', 1, True, {'values': values, 'alphabet': None}),
+        (mavenn.heatmap, 'df', 'hi', True, {'values': values, 'alphabet': None}),
+        # test 4
+        (mavenn.heatmap, 'df', None, True, {'values': None, 'alphabet': alphabet}),
+        (mavenn.heatmap, 'df', df, True, {'values': None, 'alphabet': alphabet}),
+        (mavenn.heatmap, 'df', 1, True, {'values': None, 'alphabet': alphabet}),
+        (mavenn.heatmap, 'df', 'hi', True, {'values': None, 'alphabet': alphabet}),
+
+        # Test values
+        # test 5
+        (mavenn.heatmap, 'values', None, True, {'df': None, 'alphabet': alphabet}),
+        (mavenn.heatmap, 'values', 1, True, {'df': None, 'alphabet': alphabet}),
+        (mavenn.heatmap, 'values', 'hi', True, {'df': None, 'alphabet': alphabet}),
+        (mavenn.heatmap, 'values', values[:,:-1], True, {'df': None, 'alphabet': alphabet}),
+        (mavenn.heatmap, 'values', values, False, {'df': None, 'alphabet': alphabet}),
+        (mavenn.heatmap, 'values', df.values, False, {'df': None, 'alphabet': alphabet}),
+
+        # Test alphabet
+        # test 6
+        (mavenn.heatmap, 'alphabet', None, True, {'values': values, 'df': None}),
+        (mavenn.heatmap, 'alphabet', 1, True, {'values': values, 'df': None}),
+        (mavenn.heatmap, 'alphabet', 'hi', True, {'values': values, 'df': None}),
+        (mavenn.heatmap, 'alphabet', df.columns, False, {'values': values, 'df': None}),
+        (mavenn.heatmap, 'alphabet', list(df.columns), False, {'values': values, 'df': None}),
+        (mavenn.heatmap, 'alphabet', 'dna', False, {'values': values, 'df': None}),
+          
+
     ]
 
