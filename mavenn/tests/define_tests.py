@@ -743,7 +743,7 @@ def get_heatmap_tests():
     df = pd.DataFrame(columns=['x', 'y', 'z', 'q'], data=np.random.rand(10, 4))
     values = df.values
     alphabet = df.columns
-    function_name = inspect.currentframe().f_code.co_name
+    
     return [
 
         # Test df

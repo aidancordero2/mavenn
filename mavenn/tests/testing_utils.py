@@ -407,7 +407,7 @@ def generate_id(param):
     """
     if isinstance(param, pd.DataFrame):
         # Look up the DataFrame by its ID in the mapping
-        return df_name_map.get(id(param), "unknown_df")
+        return 'df'
     if isinstance(param, (types.FunctionType, types.MethodType, types.BuiltinFunctionType)):
         return param.__name__.split('.')[-1]
     if isinstance(param, dict): # for input_kwargs
