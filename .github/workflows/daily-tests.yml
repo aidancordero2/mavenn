@@ -39,7 +39,6 @@ jobs:
 
       - name: Run tests
         run: |
-          pip install mavenn
           python -c "import mavenn"
           pytest -v --cov-report term-missing --cov=mavenn
 
