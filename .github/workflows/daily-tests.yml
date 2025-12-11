@@ -39,7 +39,7 @@ jobs:
 
       - name: Run tests
         run: |
-          python -c "import mavenn"
+          python -c "import mavenn; print(mavenn.__file__)"
           pytest -v --cov-report term-missing --cov=mavenn
 
   notify:
